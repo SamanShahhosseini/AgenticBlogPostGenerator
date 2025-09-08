@@ -4,4 +4,14 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+"langchain",
+"langgraph",
+"langchain_community",
+"langchain_core",
+"langchain_groq",
+"fastapi",
+"uvicorn",
+"watchdog",
+"langchain-cli[inmem]"
+]
