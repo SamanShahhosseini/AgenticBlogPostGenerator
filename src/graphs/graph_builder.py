@@ -32,9 +32,9 @@ class GraphBuilder:
         # Nodes
         self.graph.add_node("title_creation", self.blog_node_obj.title_creation)
         self.graph.add_node("content_generation",self.blog_node_obj.content_generation)
-        self.graph.add_node("route", )
-        self.graph.add_node("farsi_translation", )
-        self.graph.add_node("spanish_translation", )
+        self.graph.add_node("route", self.blog_node_obj.route)
+        self.graph.add_node("farsi_translation", lambda state: self.blog_node_obj.translation({**state, "current_language":"farsi"}))
+        self.graph.add_node("spanish_translation", lambda state: self.blog_node_obj.translation({**state, "current_language":"spanish"}))
 
         # Edges and conditional edges
         self.graph.add_edge(START, "title_creation")
@@ -67,4 +67,4 @@ llm = GroqLLM().get_llm()
 
 # Get the graph
 graph_builder = GraphBuilder(llm)
-graph = graph_builder.build_topic_graph().compile()
+graph = graph_builder.build_language_graph().compile()
