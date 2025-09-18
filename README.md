@@ -1,91 +1,158 @@
-# Agentic Blog Post Generator
+# Agentic Blog Post Generator  
 
-Agentic Blog Post Generator is an agentic application designed to automatically generate SEO-friendly blog posts based on user inputs. It leverages advanced language models and an agentic workflow to deliver high-quality content optimized for search engines. 
-
-## Features
-
-This project supports two main modes of operation:
-
-1. **Only Topic:**  
-   - The user provides a topic.
-   - The system generates a creative, SEO-friendly blog post title and a detailed blog post body related to the topic.
-   - Both the title and body are optimized for SEO.
-
-2. **Topic and Language:**  
-   - The user provides both a topic and a desired language.
-   - The system generates a creative, SEO-friendly blog post title and body in the specified language.
-   - The content is adapted to cultural and linguistic nuances of the target language, maintaining SEO best practices.
-
-## How It Works
-
-- The system is built on FastAPI for serving endpoints.
-- Blog post generation is managed by an agentic workflow using `langgraph` and `langchain` libraries.
-- For the "Only Topic" mode, the system:
-  - Creates a blog title using language model prompts.
-  - Generates detailed blog content with Markdown formatting.
-- For the "Topic and Language" mode, the system:
-  - Generates the title and content in the default language.
-  - Translates the content to the specified language, ensuring style and cultural adaptation.
-  - Currently supports conditional translation nodes for languages such as Farsi and Spanish.
-
-## API Usage
-
-### POST `/blogs`
-
-**Request Body:**
-- Only Topic:
-  ```json
-  { "topic": "Agentic AI" }
-  ```
-- Topic and Language:
-  ```json
-  { "topic": "Agentic AI", "language": "Farsi" }
-  ```
-
-**Response:**
-- Returns a JSON object containing the SEO-friendly blog post title and content.
-
-## Project Structure
-
-- `app.py` – FastAPI application and main endpoint.
-- `src/graphs/graph_builder.py` – Agentic workflow builder for blog generation.
-- `src/nodes/blog_node.py` – Node logic for blog title, content, and translation.
-- `src/states/blogstate.py` – State definitions for blog generation.
-- `requirements.txt` / `pyproject.toml` – Project dependencies.
-
-## Setup
-
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/SamanShahhosseini/AgenticBlogPostGenerator.git
-   cd AgenticBlogPostGenerator
-   ```
-2. **Install dependencies**  
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Set up environment variables**  
-   - Copy `.env.example` to `.env` and configure your API keys as needed.
-
-4. **Run the application**  
-   ```bash
-   uvicorn app:app --reload
-   ```
-   The API will be available at `http://localhost:8000/blogs`.
-
-## Dependencies
-
-- Python 3.11+
-- FastAPI
-- Uvicorn
-- LangChain, LangGraph, LangChain Groq, LangChain Core, LangChain Community
-
-## License
-
-This project is licensed under the MIT License.
+> **An end-to-end agentic AI system that generates SEO-friendly blog posts in English, Farsi, or Spanish — powered by LangGraph, Groq LLMs, and FastAPI.**  
 
 ---
 
-> **Note:**  
-> The search results provided above may be incomplete due to result limitations.  
-> For a full view of the repository content, visit [AgenticBlogPostGenerator on GitHub](https://github.com/SamanShahhosseini/AgenticBlogPostGenerator).
+## Overview  
+
+The **Agentic Blog Post Generator** is a production-ready application that uses **agentic AI workflows** to automatically create **SEO-optimized blog posts**.  
+
+It demonstrates my ability to:  
+- Build **end-to-end AI systems** with **LangGraph orchestration**.  
+- Use **Groq LLMs** for high-performance natural language generation.  
+- Design **REST APIs** with **FastAPI**.  
+- Deliver **real-world applications** (SEO + multilingual content).  
+
+This project is part of my **portfolio showcase**, proving I can design AI systems that are **both technically advanced and practical for business use cases**.  
+
+---
+
+## Features  
+
+The system supports **two modes of operation**:  
+
+### 1 Only Topic Mode  
+- Input: A **topic** (e.g., “Artificial Intelligence in Healthcare”).  
+- Output:  
+  - A **creative, SEO-friendly blog title**.  
+  - A **detailed, SEO-optimized blog post** body.  
+
+### 2 Topic + Language Mode  
+- Input: A **topic** + **target language** (`Farsi` or `Spanish`).  
+- Output:  
+  - A **translated, SEO-friendly blog title**.  
+  - A **detailed blog post body** in the selected language.  
+
+Both modes ensure that the generated content is **SEO-ready**, using appropriate structure, keywords, and formatting.  
+
+---
+
+## Architecture  
+
+- **FastAPI** → Provides a clean REST API at `/blogs`.  
+- **LangGraph** → Manages workflows via nodes and state graphs.  
+- **Groq LLMs** → Generates blog titles, content, and translations.  
+- **Nodes** →  
+  - `title_creation` → SEO-friendly blog title.  
+  - `content_generation` → Detailed blog content.  
+  - `translation` → Farsi/Spanish translation while keeping SEO context.  
+- **State Management** → TypedDict (`BlogState`) tracks topic, content, and language.  
+
+This modular design makes the system **easy to extend** with new languages or tools.  
+
+---
+
+## Installation & Setup  
+
+### 1. Clone the repository  
+```bash
+git clone https://github.com/<your-username>/AgenticBlogPostGenerator.git
+cd AgenticBlogPostGenerator
+```
+
+### 2. Create & activate a virtual environment  
+```bash
+python -m venv .venv
+source .venv/bin/activate   # On Windows: .venv\Scripts\activate
+```
+
+### 3. Install dependencies  
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Set environment variables  
+Create a `.env` file in the root:  
+```env
+GROQ_API_KEY=your_groq_api_key
+LANGCHAIN_API_KEY=your_langsmith_key   # optional for LangSmith integration
+```
+
+### 5. Run the API  
+```bash
+uvicorn app:app --reload
+```
+
+The API will be available at: [http://localhost:8000/blogs](http://localhost:8000/blogs)  
+
+---
+
+## Example Usage  
+
+### Example Request (Topic Only)  
+```bash
+curl -X POST http://localhost:8000/blogs   -H "Content-Type: application/json"   -d '{
+        "topic": "Artificial Intelligence in Finance"
+      }'
+```
+
+### Example Response  
+```json
+{
+  "data": {
+    "topic": "Artificial Intelligence in Finance",
+    "blog": {
+      "title": "Transforming Finance: How AI is Revolutionizing Banking",
+      "content": "Artificial Intelligence (AI) is transforming financial services..."
+    }
+  }
+}
+```
+
+---
+
+### Example Request (Topic + Language)  
+```bash
+curl -X POST http://localhost:8000/blogs   -H "Content-Type: application/json"   -d '{
+        "topic": "Renewable Energy Trends",
+        "language": "farsi"
+      }'
+```
+
+### Example Response  
+```json
+{
+  "data": {
+    "topic": "Renewable Energy Trends",
+    "blog": {
+      "title": "روندهای نوین انرژی‌های تجدیدپذیر",
+      "content": "انرژی‌های تجدیدپذیر به سرعت در حال تبدیل شدن به..."
+    },
+    "current_language": "farsi"
+  }
+}
+```
+
+---
+
+## Roadmap  
+
+- [ ] Add support for **more languages** (French, German, Arabic).  
+- [ ] Improve SEO optimization with **embedding-based keyword expansion**.  
+- [ ] Deploy API on **cloud (AWS/GCP)** with Docker.  
+- [ ] Add **frontend UI** for non-technical users.  
+
+---
+
+## Why This Project is Relevant to Recruiters  
+
+- Shows ability to build **real-world AI applications** (SEO + multilingual content).  
+- Demonstrates strong skills in **LangGraph, FastAPI, and LLM orchestration**.  
+- Proves experience with **production-grade architecture** (state management, modular design, environment configs).  
+- Highlights capability to **bridge AI + business use cases** (content marketing, SEO, multilingual communication).  
+
+---
+
+## License  
+MIT License.  
